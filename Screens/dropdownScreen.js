@@ -460,7 +460,6 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    borderWidth: 1,
     borderRadius: 15,
     padding: 10,
     width: 400,
@@ -484,7 +483,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 10,
     borderRadius: 25,
-    justifyContent: "center",
 
     backgroundColor: "purple",
   },

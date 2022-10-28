@@ -25,13 +25,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "sanjay.egress"
+      "package": "sanjay.ClothShare"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "sdkVersion": "44.0.0",
-    "description": ""
+    "description": "hola"
   },
-  "name": "egressteam"
+  "name": "ClothShare"
 }

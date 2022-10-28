@@ -52,6 +52,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const auth = getAuth();
+const db = getDatabase()
 
 //  Listen for authentication state to change.
 onAuthStateChanged(auth, (user) => {
@@ -262,7 +263,6 @@ const styles = StyleSheet.create({
       ios: {
         height: 40,
     margin: 12,
-    borderWidth: 1,
     borderWidth: 1,
     borderRadius: 15,
     padding: 10,

@@ -9,6 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { Picker } from "@react-native-picker/picker";
 // TODO: CONFIGURE THE ICONS WHEN DEPLOYING: https://github.com/oblador/react-native-vector-icons
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -33,33 +34,18 @@ import { Touchable } from "react-native-web";
 // const Stack = createNativeStackNavigator();
 
 export default function adScreen3({ navigation }) {
-  const [url, setUrl] = React.useState();
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(null);
-  const [items, setItems] = React.useState([
-    { label: "Business Attire", value: "Business Attire" },
-    { label: "Casual Wear", value: "banana" },
-  ]);
-  const [selected, setSelected] = React.useState("");
-  const [descriptionLabel, descriptionChange] = React.useState(null);
+
+  const [selected, setSelectedMethod] = React.useState("");
+  const [numericPrice, numericChange] = React.useState("");
+  const [priceMethod, priceMethodChange] = React.useState("");
+  const [disabledMethod, disabledChange] = React.useState(true);
   const data1 = [
-    { key: "1", value: "Business Attire" },
-    { key: "2", value: "Casual Wear" },
-    { key: "3", value: "Formal Wear" },
-    { key: "4", value: "Sportswear" },
+    { key: "1", value: "Rent" },
+    { key: "2", value: "Sell" },
+    
   ];
 
-  const data2 = [
-    { key: "1", value: "Used Fair" },
 
-    { key: "2", value: "Normal Wear" },
-    { key: "3", value: "Brand new" },
-  ];
-  const [titleLabel, onChangetitle] = React.useState(null);
-  const [image, setImage] = React.useState(
-    require("/Users/sanjayshreeyansgmail.com/Documents/Dev/react-cloth-sharing/ClothShare/upload-photo.jpeg")
-  );
-  var cou = 0;
 
   const didMount = React.useRef(false);
 
@@ -73,11 +59,9 @@ export default function adScreen3({ navigation }) {
   //     };
   //     func();
   //   }, []);
-
+ 
   //   console.log(url, cou++);
-
-  const [search, updateSearch] = React.useState();
-  console.log(search);
+  
   const data = [{ key: "1", value: "Jammu & Kashmir" }];
 
   const getData = async () => {
@@ -92,27 +76,7 @@ export default function adScreen3({ navigation }) {
   };
   getData();
 
-  React.useEffect(() => {
-    if (!didMount.current) {
-      didMount.current = true;
-      return;
-    }
 
-    if (url == undefined) {
-      console.log(url, "!URL 1");
-      document.title = "Threshold of over 1 reached.";
-    } else {
-      console.log(url, "!URL 3");
-      global.users = [
-        {
-          name: "brynn",
-          avatar: url,
-        },
-      ];
-
-      document.title = "No threshold reached.";
-    }
-  }, [url]);
 
   function make_square_elms(value) {
     const screenWidth = Dimensions.get("window").width;
@@ -126,6 +90,49 @@ export default function adScreen3({ navigation }) {
     }
   }
 
+  function changeUIBasedOnBuy () {
+
+    console.log(selected)
+    if (selected == 2) {
+
+      console.log("The user choose to sell the product.")
+      disabledChange(false)
+      console.log("The value1: ", disabledMethod);
+      console.log("The value2: ", !disabledMethod);
+    }
+
+    if (selected == 1) {
+
+      console.log("The user choose to rent the product.")
+       disabledChange(true);
+       console.log("The value1: ", disabledMethod);
+       console.log("The value2: ", !disabledMethod);
+    }
+
+
+  }
+
+
+function onChangedNumeric(txt) {
+    
+    let newText = '';
+    let numbers = '0123456789.';
+
+    var text = txt.replace("$", "")
+    console.log(text)
+    for (var i=0; i < text.length; i++) {
+        if(numbers.indexOf(text[i]) > -1 ) {
+            newText = newText + text[i];
+        }
+        else {
+            // your call back function
+            numericChange(newText);
+            console.log("please enter numbers only");
+        }
+    }
+    numericChange(newText);
+}
+
   return (
     <View style={styles.container}>
       <View style={{ height: hp("5%") }}></View>
@@ -138,13 +145,14 @@ export default function adScreen3({ navigation }) {
         }}
       >
         {" "}
-        Category:{" "}
+        Sell or Rent:{" "}
       </Text>
       <SelectList
-        setSelected={setSelected}
+        setSelected={setSelectedMethod}
         data={data1}
-        boxStyles={{ width: wp("40%") }}
-        placeholder="Select a Category"
+        boxStyles={{ width: wp("60%") }}
+        onSelect={() => changeUIBasedOnBuy()}
+        placeholder="Sell or Rent"
         // dropdownStyles={{ marginHorizontal: wp("20%"), width: wp("20") }}
         // onSelect={() => alert(selected)}
       />
@@ -157,16 +165,18 @@ export default function adScreen3({ navigation }) {
           paddingBottom: hp("3%"),
         }}
       >
-        Condition:
+        Price:
       </Text>
-      <SelectList
-        setSelected={setSelected}
-        data={data2}
-        boxStyles={{ width: wp("40%") }}
-        placeholder="Select a Condition"
-        // dropdownStyles={{ marginHorizontal: wp("20%"), width: wp("20") }}
-        // onSelect={() => alert(selected)}
+      <TextInput
+        style={styles.inputPrice}
+        onEndEditing={numericChange}
+        keyboardType="number-pad"
+        onChangeText={(text) => onChangedNumeric(text)}
+        value={"$" + numericPrice}
+        placeholder="Tell us more about the product:"
+        placeholderTextColor="black"
       />
+
       <Text
         style={{
           fontWeight: "bold",
@@ -175,21 +185,42 @@ export default function adScreen3({ navigation }) {
           paddingBottom: hp("3%"),
         }}
       >
-        Description:
+        Pricing Method:
       </Text>
-      <TextInput
-        style={styles.input}
-        onEndEditing={descriptionChange}
-        multiline={true}
-        placeholder="Tell us more about the product:"
-        placeholderTextColor="black"
-      />
+
+      <Picker
+        style={{
+          width: wp("60%"),
+          height: hp("5%"),
+          borderRadius: hp("1%"),
+          backgroundColor: "rgb(239,239,239)",
+        }}
+        selectedValue={priceMethod}
+        onValueChange={(itemValue, itemIndex) => priceMethodChange(itemValue)}
+        enabled={disabledMethod}
+      >
+        <Picker.Item label="Pricing Method:" value="no value selected" />
+        <Picker.Item label="Price per day" value="daily" />
+        <Picker.Item label="Price per hour" value="hourly" />
+      </Picker>
 
       <View style={{ height: hp("5%") }}></View>
 
       <Button
         title="NEXT"
         raised={true}
+        onPress={() => navigation.navigate("adScreen4", {
+
+          titleLabel: navigation.getParam("titleLabel"),
+          image: navigation.getParam("image"),
+          descriptionLabel: navigation.getParam("descriptionLabel"),
+          selectedCondition: navigation.getParam("selectedCondition"),
+          selectedMethod: selected,
+          numericPrice: numericPrice,
+          pricingMethod: priceMethod,
+
+
+        })}
         titleStyle={{ paddingLeft: 20 }}
         icon={
           <Icon
@@ -265,7 +296,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   paragraphCard: {
-    fontSize: "1.5rem",
+    fontSize: hp("2%"),
     fontWeight: "bold",
     textAlign: "center",
     color: "black",
@@ -274,10 +305,21 @@ const styles = StyleSheet.create({
     height: hp("25%"),
 
     borderWidth: 1,
-    borderWidth: 1,
     borderRadius: 15,
     padding: 10,
     width: wp("70%"),
+
+    alignSelf: "center",
+  },
+
+  inputPrice: {
+    height: hp("12%"),
+    fontSize: hp("4%"),
+
+    borderWidth: 1,
+    borderRadius: 15,
+    padding: 10,
+    width: wp("30%"),
 
     alignSelf: "center",
   },
@@ -311,7 +353,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 0,
     borderRadius: 25,
-    fontColor: "black",
     backgroundColor: "rgb(239,139,118)",
   },
   // SignPainter- HouseScript 98.0
@@ -348,8 +389,6 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
-    alignItems: "left",
-    alignSelf: "left",
   },
 
   overlay: {

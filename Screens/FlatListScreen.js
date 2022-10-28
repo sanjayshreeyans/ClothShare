@@ -7,6 +7,10 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { Header } from "react-native-elements";
 import { SearchBar } from "react-native-elements";
 import * as React from "react";
@@ -141,7 +145,22 @@ const SearchBox = ({ currentRefinement, refine }) => {
               onPress={() => navigation.navigate("HomeScreen")}
             /> */}
 
+
+
+
             <Text style={styles.paragraph}>ClothShare</Text>
+
+            <TouchableOpacity
+                paddingTop={hp("2%")}
+                title="Sell"
+                color="purple"
+                onPress={() => navigation.navigate("adScreen")}
+                style={styles.roundButton2}
+            >
+              <Text style={styles.roundButton13}>Sell or Rent</Text>
+            </TouchableOpacity>
+
+
           </View>
         }
         centerComponent={
@@ -400,15 +419,13 @@ const styles = StyleSheet.create({
   },
 
   roundButton2: {
-    width: 200,
-    height: 50,
-    paddingTop: 0,
+    width: wp("6%"),
+    height: hp("5%"),
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "center",
-    padding: 0,
+    alignSelf: "bottom", // align
+    marginTop: hp("2%"),
     borderRadius: 25,
-
-    backgroundColor: "rgb(239,139,118)",
+    backgroundColor: "rgb(90,210,138)",
   },
 });

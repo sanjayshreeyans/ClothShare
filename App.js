@@ -210,18 +210,30 @@ import { createStackNavigator } from "react-navigation-stack";
 import LoginView from "./Screens/LoginScreen.js";
 import adScreen from "./Screens/postAnAdScreen.js";
 import adScreen2 from "./Screens/postAnAdScreen2";
-import adScreen2 from "./Screens/postAnAdScreen2";
-
-
+import adScreen3 from "./Screens/postAnAdScreen3";
+import adScreen4 from "./Screens/postAnAdScreen4"
 import FlatListScreen from "./Screens/FlatListScreen.js";
+import adScreen5 from "./Screens/postAnAdScreen5";
+import { AppRegistry, Platform } from 'react-native';
+
 // import SignupView from '../Screens/SignupScreen.js'
 // import HomeView from "./Screens/HomeScreen.js";
 // import RefinementList from "./Screens/agoliaSearch.js";
 const AppNavigator = createStackNavigator(
   {
-    "adScreen2": adScreen2,
-    "adScreen": adScreen,
     FlatScreen: FlatListScreen,
+
+    adScreen: adScreen,
+
+    adScreen2: adScreen2,
+
+    adScreen3: adScreen3,
+
+    adScreen4: adScreen4,
+    adScreen5: adScreen5,
+
+    // FlatScreen: FlatListScreen,
+    
     Login: LoginView,
 
     // agoliaSearch: RefinementList,
@@ -248,3 +260,10 @@ export default function App() {
   );
 }
 
+
+AppRegistry.registerComponent('X', () => App);
+
+if (Platform.OS === 'web') {
+    const rootTag = document.getElementById('root') || document.getElementById('X');
+    AppRegistry.runApplication('X', { rootTag });
+}

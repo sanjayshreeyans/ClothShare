@@ -36,7 +36,7 @@ export default function adScreen({ navigation }) {
   const [titleLabel, onChangetitle] = React.useState(null);
   const [image, setImage] = React.useState(
     require("/Users/sanjayshreeyansgmail.com/Documents/Dev/react-cloth-sharing/ClothShare/upload-photo.jpeg")
-  );
+  ); // Stores the user picked Image
   var cou = 0;
   
   const didMount = React.useRef(false);
@@ -71,6 +71,7 @@ export default function adScreen({ navigation }) {
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
+    
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -108,13 +109,12 @@ export default function adScreen({ navigation }) {
     }
   }, [url]);
 
-  function make_square_elms (value){
+  function make_square_elms (value) {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
     if (screenWidth > screenHeight) {
       console.log(screenWidth, screenHeight, "Choosing WUDTH")
       return wp(value)
-      
     }
 
     else if (screenHeight > screenWidth) {
@@ -127,7 +127,9 @@ export default function adScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* How to create a button in react native */}
-      <View style={{ width: 200,  height: hp("3%"), alignItems:"center"}}></View>
+      <View
+        style={{ width: 200, height: hp("3%"), alignItems: "center" }}
+      ></View>
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         {image && (
           <Image
@@ -175,6 +177,10 @@ export default function adScreen({ navigation }) {
         title="NEXT"
         raised={true}
         titleStyle={{ paddingLeft: 20 }}
+        onPress={() => navigation.navigate("adScreen2",   {
+          titleLabel: titleLabel,
+          image: image
+        })}
         icon={
           <Icon
             name="arrow-right"
@@ -246,7 +252,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   paragraphCard: {
-    fontSize: "1.5rem",
+    fontSize: hp("2%"),
     fontWeight: "bold",
     textAlign: "center",
     color: "black",
@@ -254,7 +260,6 @@ const styles = StyleSheet.create({
   input: {
     height: hp("5%"),
     margin: 12,
-    borderWidth: 1,
     borderWidth: 1,
     borderRadius: 15,
     padding: 10,
@@ -292,7 +297,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 0,
     borderRadius: 25,
-    fontColor: "black",
     backgroundColor: "rgb(239,139,118)",
   },
   // SignPainter- HouseScript 98.0
@@ -308,7 +312,6 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 0,
-    borderWidth: 0,
     borderRadius: 15,
     padding: 10,
     width: 400,
@@ -323,14 +326,11 @@ const styles = StyleSheet.create({
     height: global.windowHeight,
     justifyContent: "center",
     alignSelf: "center",
-    flex: 1,
-    justifyContent: "center",
+    flex: 1
   },
   image: {
     width: 200,
     height: 200,
-    alignItems: "left",
-    alignSelf: "left",
   },
 
   overlay: {

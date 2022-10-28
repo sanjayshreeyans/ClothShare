@@ -33,13 +33,8 @@ import { Touchable } from "react-native-web";
 // const Stack = createNativeStackNavigator();
 
 export default function adScreen2({ navigation }) {
-  const [url, setUrl] = React.useState();
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(null);
-  const [items, setItems] = React.useState([
-    { label: "Business Attire", value: "Business Attire" },
-    { label: "Casual Wear", value: "banana" },
-  ]);
+
+  const [url, setUrl] = React.useState(null);
   const [selected, setSelected] = React.useState("");
   const [descriptionLabel, descriptionChange] = React.useState(null);
   const data1 = [
@@ -55,10 +50,7 @@ export default function adScreen2({ navigation }) {
     { key: "2", value: "Normal Wear" },
     { key: "3", value: "Brand new" },
   ];
-  const [titleLabel, onChangetitle] = React.useState(null);
-  const [image, setImage] = React.useState(
-    require("/Users/sanjayshreeyansgmail.com/Documents/Dev/react-cloth-sharing/ClothShare/upload-photo.jpeg")
-  );
+
   var cou = 0;
 
   const didMount = React.useRef(false);
@@ -112,7 +104,7 @@ export default function adScreen2({ navigation }) {
 
       document.title = "No threshold reached.";
     }
-  }, [url]);
+  },  [url]);
 
   function make_square_elms(value) {
     const screenWidth = Dimensions.get("window").width;
@@ -191,6 +183,15 @@ export default function adScreen2({ navigation }) {
         title="NEXT"
         raised={true}
         titleStyle={{ paddingLeft: 20 }}
+        onPress={() => navigation.navigate("adScreen3", {
+
+          titleLabel: navigation.getParam("titleLabel"),
+          image: navigation.getParam("image"),
+          descriptionLabel: descriptionLabel,
+          selectedCondition: selected
+
+
+        })}
         icon={
           <Icon
             name="arrow-right"
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   paragraphCard: {
-    fontSize: "1.5rem",
+    fontSize: hp("2%"),
     fontWeight: "bold",
     textAlign: "center",
     color: "black",
@@ -273,7 +274,6 @@ const styles = StyleSheet.create({
   input: {
     height: hp("25%"),
 
-    borderWidth: 1,
     borderWidth: 1,
     borderRadius: 15,
     padding: 10,
@@ -311,7 +311,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 0,
     borderRadius: 25,
-    fontColor: "black",
     backgroundColor: "rgb(239,139,118)",
   },
   // SignPainter- HouseScript 98.0
@@ -327,7 +326,6 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 0,
-    borderWidth: 0,
     borderRadius: 15,
     padding: 10,
     width: 400,
@@ -342,14 +340,11 @@ const styles = StyleSheet.create({
     height: global.windowHeight,
     justifyContent: "center",
     alignSelf: "center",
-    flex: 1,
-    justifyContent: "center",
+    flex: 1
   },
   image: {
     width: 200,
-    height: 200,
-    alignItems: "left",
-    alignSelf: "left",
+    height: 200
   },
 
   overlay: {
